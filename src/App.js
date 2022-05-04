@@ -1,10 +1,29 @@
 import './App.css';
 import React, {useState} from 'react';
 import CardGroup from './CardGroup';
-
+import $ from 'jquery';
 
 
 function App() {
+  $(document).ready(function() {
+    $('#higher').click(function(){
+        // animation to show the salary of the right player:
+        $("#rightcard").children('div')[0].children[2].remove();
+        const h1 = document.createElement("h1");
+        const textNode = document.createTextNode("$15 million");
+        h1.appendChild(textNode); 
+        h1.className += " salary"
+        const element = $("#rightcard").children('div')[0];
+        element.replaceChild(h1, element.childNodes[2]);
+        
+        // move left card and right card over:
+        $('#leftcard, #rightcard, #offcard').animate({'right' : "50%"}, 700);
+        
+        // // modify the rightcard so it now has id leftcard:
+        // $('#rightcard').attr('id', 'leftcard')
+        
+      });
+  });
   //if the user answers incorrectly set this to 1
   var answeredWrong = 0;
   var score = 0;
@@ -51,9 +70,11 @@ function App() {
       </div>
     )
   }
+  
+
   return(
     <div className='app'>
-      <button className='centerBtn' onClick={addCard}>VS</button>
+      <button id='centerBtn' onClick={addCard}>VS</button>
       <CardGroup cards={cards} img={cards.img}></CardGroup>
     </div>
   )
