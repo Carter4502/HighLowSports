@@ -2,13 +2,18 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  max-height: 100vh;
-  /*overflow-x: hidden;*/
+}
+
+html, body {
+  margin: 0; 
+  height: 100%; 
+  overflow: hidden;
 }
 
 .app{
-  display: flex;
   position: relative;
+  display: flex;
+  flex-direction: row;
 }
 
 .centerBtn{
@@ -27,6 +32,89 @@
   border: none;
   font-size: 30px;
   font-weight: bold;
+}
+
+#leftcard {
+  -webkit-transition: 3s;
+  -moz-transition: 3s;
+  -ms-transition: 3s;
+  -o-transition: 3s;
+  transition: 3s;
+  right: 50% !important;
+}
+
+#rightcard {
+  -webkit-transition: 3s;
+  -moz-transition: 3s;
+  -ms-transition: 3s;
+  -o-transition: 3s;
+  transition: 3s;
+  margin-left: -50% !important;
+}
+
+#offcard{
+  -webkit-transition: 3s;
+  -moz-transition: 3s;
+  -ms-transition: 3s;
+  -o-transition: 3s;
+  transition: 3s;
+  margin-left: -50% !important;
+}
+
+img {
+  max-width: 50vw;
+  min-height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4);
+}
+
+.card-info{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.athleteName{
+  color: white;
+  font-size: 3.5rem;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+p{
+  font-size: 1.25rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.salary{
+  color: #3bca1b;
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+button{
+  width: 12.5rem;
+  padding: 1rem 0.625rem;
+  border-radius: 2.5rem;
+  border: 0.125rem solid white;
+  position: relative;
+  background: transparent no-repeat 0 0;
+  margin: 0 auto 10px;
+  color: #3bca1b;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+button:hover{
+  background: white;
+  color: black;
+}
+
+h1 {
+  text-align: center;
+  margin: 0 auto;
 }
 
 
