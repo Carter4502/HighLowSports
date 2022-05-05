@@ -13,6 +13,7 @@ const Card = (props) => {
                 </div>
             </div>
         )
+    //if the class is off then the 
     }else if (props.pos === "off"){
         return (
             <div className="card"  id={props.pos + "card"}>
@@ -27,7 +28,7 @@ const Card = (props) => {
             </div>
         )
     }
-
+    //return the right card based on the class name
     return (
         <div  className="card" id={props.pos + "card"}>
             <img src={props.img} draggable="false" alt="Sports athlete"/>
