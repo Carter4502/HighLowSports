@@ -5,29 +5,10 @@ import $ from 'jquery';
 
 
 function App() {
-  $(document).ready(function() {
-    $('#higher').click(function(){
-        // animation to show the salary of the right player:
-        $("#rightcard").children('div')[0].children[2].remove();
-        const h1 = document.createElement("h1");
-        const textNode = document.createTextNode("$15 million");
-        h1.appendChild(textNode); 
-        h1.className += " salary"
-        const element = $("#rightcard").children('div')[0];
-        element.replaceChild(h1, element.childNodes[2]);
-        
-        // move left card and right card over:
-        $('#leftcard, #rightcard, #offcard').animate({'right' : "50%"}, 700);
-        
-        // // modify the rightcard so it now has id leftcard:
-        // $('#rightcard').attr('id', 'leftcard')
-        
-      });
-  });
   //if the user answers incorrectly set this to 1
   var answeredWrong = 0;
-  var score = 0;
   //State
+  const [game, setGame] = useState(0);
   const [cards, setCards] = useState([
     {
       id: 0,
@@ -59,25 +40,59 @@ function App() {
     ]);
   }
 
-  //const correctAnswer = () => {
-    //score = score + 1;
-  //}
+  // const removeCard = id => {
+  //   const newCards = [...cards].filter(card => {
+  //     return card.id !== id;
+  //   })
+  //   setCards(newCards);
+  // }
 
-  if(answeredWrong === 1){
+  $(document).ready(function() {
+    $('#higher, #lower').click(function(){
+        // animation to show the salary of the right player:
+        $("#rightcard").children('div')[0].children[2].remove();
+        //create new h1
+        const h1 = document.createElement("h1");
+        const textNode = document.createTextNode("$15 million");
+        h1.appendChild(textNode); 
+        //set class name to salary for styling
+        h1.className += " salary"
+        //get the button element
+        const element = $("#rightcard").children('div')[0];
+        //replace the button with the h1
+        element.replaceChild(h1, element.childNodes[2]);
+        // move all cards over:
+        $('#leftcard, #rightcard, #offcard').animate({'right' : "50%"}, 700);
+        //change the card ids to reflect the move
+        $('#leftcard').attr('id', 'deleted');
+        $('#rightcard').attr('id', 'leftcard');
+      });
+  });
+  $('#offcard').attr('id', 'rightcard');
+  //if game has started, game = 1, so show the game
+  if(game === 1){
+    return (
+      <div className='app'>
+        <button id='centerBtn' onClick={addCard}>VS</button>
+        <CardGroup cards={cards} img={cards.img}></CardGroup>
+    </div>
+    )
+  }
+  //if they answered a question incorrectly, display the game over screen
+  else if(answeredWrong === 1){
     return (
       <div className='app'>
         <h1>Game Over!</h1>
       </div>
     )
   }
-  
-
+  //if the game hasnt started, show the loading screen with the start game btn
   return(
     <div className='app'>
-      <button id='centerBtn' onClick={addCard}>VS</button>
-      <CardGroup cards={cards} img={cards.img}></CardGroup>
+      <button id="startBtn" onClick={() => {
+        setGame(1);
+      }}>Start Game</button>
     </div>
   )
 }
-
 export default App;

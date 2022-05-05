@@ -8,12 +8,24 @@ html, body {
   margin: 0; 
   height: 100%; 
   overflow: hidden;
+  background: black;
 }
 
 .app{
-  position: relative;
   display: flex;
   flex-direction: row;
+}
+
+#startBtn{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 25rem;
+  height: 7.5rem;
+  font-size: 2rem;
+  border-radius: 5rem;
 }
 
 #centerBtn{
@@ -34,7 +46,16 @@ html, body {
   font-weight: bold;
 }
 
-
+.card{
+  position: relative;
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
 
 img {
   max-width: 50vw;
@@ -88,8 +109,8 @@ button:hover{
 }
 
 h1 {
-  text-align: center;
   margin: 0 auto;
+  color: #ca1b1b;
 }
 
 
