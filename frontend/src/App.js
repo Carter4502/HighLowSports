@@ -42,9 +42,6 @@ function App() {
     getFirstTwoCards();
   }, []);
 
-  
-  
- 
   const addCard = async() => {
     try {
       const body = {'currency': 'USD', 'compared_to': 1};
@@ -97,7 +94,7 @@ function App() {
   }
 
   //game logic
-  $('#higher').click(function(){
+  $('#higher').unbind("click").click(function(){
     var rightSalary = cards[cards.length - 2].salary;
     var leftSalary = cards[cards.length - 3].salary;
     if (leftSalary > rightSalary) {
@@ -106,7 +103,7 @@ function App() {
     moveCards(rightSalary);
   });
 
-  $('#lower').on("click", function(){
+  $('#lower').unbind("click").on("click", function(){
     var rightSalary = cards[cards.length - 2].salary;
     var leftSalary = cards[cards.length - 3].salary;
     if (leftSalary < rightSalary) {
@@ -114,6 +111,7 @@ function App() {
     }
     moveCards(rightSalary);
   });
+
   //if they answered a question incorrectly, display the game over screen
   if(state.answer === 0){
     return (
@@ -122,6 +120,7 @@ function App() {
       </div>
     )
   }
+
   //if game has started, game = 1, so show the game
   if(state.gameStarted === 1){
     return (
@@ -131,6 +130,7 @@ function App() {
     </div>
     )
   }
+
   //if the game hasnt started, show the loading screen with the start game btn
   return(
     <div className='app'>
@@ -140,4 +140,5 @@ function App() {
     </div>
   )
 }
+
 export default App;
