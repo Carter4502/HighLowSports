@@ -11,8 +11,9 @@ function App() {
     gameStarted: 0,
     percent: 50,
     answer: 1,
-    score: 0
-  })
+    score: 0,
+    hasWon: 0
+  });
   const [cards, setCards] = useState([]);
   useEffect(() => {
     const getStartingPlayers = async() => {
@@ -42,9 +43,11 @@ function App() {
     getStartingPlayers();
   }, []);
 
-  const addCard = async() => {
+  const addCard = async(ids) => {
+    var hasWon = 0;
     try {
-      const body = {'currency': 'USD', 'compared_to': 1};
+      console.log(ids);
+      const body = {'currency': 'USD', 'compared_to': ids};
       var newPlayer;
       await fetch('http://localhost:8081/newPlayer', {
         method: 'POST',
@@ -59,15 +62,22 @@ function App() {
         newPlayer = response[0]; 
       })
       //need to set this equal to an incremented id from database
-      newPlayer.id = Date.now();
-      newPlayer.card_pos = 'off';
+      if (newPlayer === undefined) {
+        hasWon = 1;
+      } else {
+        newPlayer.card_pos = 'off';
+        setCards([
+          ...cards,
+          newPlayer
+        ]);
+      }
       
-      setCards([
-        ...cards,
-        newPlayer
-      ]);
     } catch (err) {
       console.error(err.message);
+    }
+    if (hasWon === 1) {
+      console.log("setting haswon");
+      setState({...state, hasWon: 1});
     }
     var newPercent = state.percent + 50;
     setState({...state, percent: newPercent});
@@ -119,23 +129,38 @@ function App() {
 
   //game logic
   const higherClick = () => {
+    console.log("HasWon =" + state.hasWon);
     var rightSalary = cards[cards.length - 2].salary;
     var leftSalary = cards[cards.length - 3].salary;
-    if (leftSalary > rightSalary) {
+    if (state.hasWon === 1) {
+      console.error("You won");
+    } else if (leftSalary > rightSalary) {
       return setState({...state, answer: 0});
-    }else{
-      addCard();
+    } else {
+      var ids = [];
+      for (var i = 0; i < cards.length; i++) {
+        ids.push(cards[i].id);
+      }
+      addCard(ids);
       moveCards(rightSalary);
       return setState({...state, score: state.score++});
     }
   }
   const lowerClick = () => {
+    console.log("HasWon =" + state.hasWon);
     var rightSalary = cards[cards.length - 2].salary;
     var leftSalary = cards[cards.length - 3].salary;
-    if (leftSalary < rightSalary) {
+    if (state.hasWon === 1) {
+      console.error("You won");
+    } else if (leftSalary < rightSalary) {
       return setState({...state, answer: 0});
-    }else{
-      addCard();
+    }
+    else{
+      var ids = [];
+      for (var i = 0; i < cards.length; i++) {
+        ids.push(cards[i].id);
+      }
+      addCard(ids);
       moveCards(rightSalary);
       return setState({...state, score: state.score++});
     }
