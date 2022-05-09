@@ -1,4 +1,4 @@
-import './App.css';
+import '../App.css';
 import React, {useState} from 'react';
 import CardGroup from './CardGroup';
 import $ from 'jquery';
@@ -6,12 +6,12 @@ import { useEffect } from 'react';
 
 
 function App() {
-  //if the user answers incorrectly set this to 1
   //State
   const [state, setState] = useState({
     gameStarted: 0,
     percent: 0,
-    answer: 1
+    answer: 1,
+    score: 0
   })
   const [cards, setCards] = useState([]);
   useEffect(() => {
@@ -58,6 +58,7 @@ function App() {
       .then(function (response) {
         newPlayer = response[0]; 
       })
+      //need to set this equal to an incremented id from database
       newPlayer.id = Date.now();
       newPlayer.card_pos = 'off';
       
@@ -72,35 +73,60 @@ function App() {
     setState({...state, percent: newPercent});
   }
 
-  const moveCards = (salary) => {
-    // animation to show the salary of the right player:
-    $("#rightcard").children('div')[0].children[2].remove();
-    //create new h1
-    const h1 = document.createElement("h1");
-    const textNode = document.createTextNode(salary);
-    h1.appendChild(textNode); 
-    //set class name to salary for styling
-    h1.className += "salary"
-    //get the button element
-    const element = $("#rightcard").children('div')[0];
-    //replace the button with the h1
-    element.replaceChild(h1, element.childNodes[2]);
-    // move all cards over:                   
-    $('#leftcard, #rightcard, #offcard').animate({'right' : state.percent+'%'}, 700);
-    //change the card ids to reflect the move
-    $('#leftcard').attr('id', 'deleted');
-    $('#rightcard').attr('id', 'leftcard');
-    $('#offcard').attr('id', 'rightcard');
+  const moveCards = async(salary) => {
+    if (window.matchMedia('(max-width: 860px)').matches){
+      // do functionality on screens smaller than 860px
+      // animation to show the salary of the right player:
+      $("#rightcard").children('div')[0].children[2].remove();
+      //create new h1
+      const h1 = document.createElement("h1");
+      const textNode = document.createTextNode(salary);
+      h1.appendChild(textNode); 
+      //set class name to salary for styling
+      h1.className += "salary"
+      //get the button element
+      const element = $("#rightcard").children('div')[0];
+      //replace the button with the h1
+      element.replaceChild(h1, element.childNodes[2]);
+      // move all cards over:                   
+      $('#leftcard, #rightcard, #offcard').animate({'bottom' : state.percent+'%'}, 700);
+      //change the card ids to reflect the move
+      $('#leftcard').attr('id', 'deleted');
+      $('#rightcard').attr('id', 'leftcard');
+      $('#offcard').attr('id', 'rightcard');
+    }else{
+      // animation to show the salary of the right player:
+      $("#rightcard").children('div')[0].children[2].remove();
+      //create new h1
+      const h1 = document.createElement("h1");
+      const textNode = document.createTextNode(salary);
+      h1.appendChild(textNode); 
+      //set class name to salary for styling
+      h1.className += "salary"
+      //get the button element
+      const element = $("#rightcard").children('div')[0];
+      //replace the button with the h1
+      element.replaceChild(h1, element.childNodes[2]);
+      // move all cards over:                   
+      $('#leftcard, #rightcard, #offcard').animate({'right' : state.percent+'%'}, 700);
+      //change the card ids to reflect the move
+      $('#leftcard').attr('id', 'deleted');
+      $('#rightcard').attr('id', 'leftcard');
+      $('#offcard').attr('id', 'rightcard');
+    }
   }
 
   //game logic
-  $('#higher').unbind("click").click(function(){
+  $('#higher').unbind("click").on("click", function(){
     var rightSalary = cards[cards.length - 2].salary;
     var leftSalary = cards[cards.length - 3].salary;
     if (leftSalary > rightSalary) {
       return setState({...state, answer: 0});
+    }else{
+      addCard();
+      moveCards(rightSalary);
+      return setState({...state, score: state.score++});
     }
-    moveCards(rightSalary);
   });
 
   $('#lower').unbind("click").on("click", function(){
@@ -108,8 +134,11 @@ function App() {
     var leftSalary = cards[cards.length - 3].salary;
     if (leftSalary < rightSalary) {
       return setState({...state, answer: 0});
+    }else{
+      addCard();
+      moveCards(rightSalary);
+      return setState({...state, score: state.score++});
     }
-    moveCards(rightSalary);
   });
 
   //if they answered a question incorrectly, display the game over screen
@@ -125,7 +154,7 @@ function App() {
   if(state.gameStarted === 1){
     return (
       <div className='app'>
-        <button id='centerBtn' onClick={addCard}>VS</button>
+        <button id='centerBtn' /*needs to be deleted after request is made for first three cards*/onClick={addCard}>VS</button>
         <CardGroup cards={cards} img={cards.img_url}></CardGroup>
     </div>
     )

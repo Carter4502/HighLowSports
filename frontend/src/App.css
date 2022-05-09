@@ -114,4 +114,113 @@ h1 {
 }
 
 
+/* Media queries */
+@media screen and (max-width: 1024px) {
+  #centerBtn {
+    width: 90px;
+    height: 90px;
+  }
+  button{
+    width: 11.5rem;
+    padding: .85rem 0.625rem;
+    border-radius: 2.5rem;
+    border: 0.125rem solid white;
+    position: relative;
+    background: transparent no-repeat 0 0;
+    margin: 0 auto 10px;
+    color: #3bca1b;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .athleteName {
+    font-size: 3rem;
+  }
+}
+
+
+@media screen and (max-width: 900px) {
+  .app{
+    display: flex;
+    flex-direction: column;
+  }
+
+  #startBtn{
+    width: 15rem;
+    height: 5rem;
+    font-size: 1.5rem;
+    border-radius: 5rem;
+  }
+
+  #centerBtn {
+    width: 90px;
+    height: 90px;
+  }
+
+  .card{
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img {
+    min-width: 100vw;
+    max-height: 50%;
+    object-fit: cover;
+    filter: brightness(0.4);
+  }
+
+  .athleteName{
+    font-size: 2.75rem;
+  }
+  
+  p{
+    font-size: 1.25rem;
+  }
+  
+  .salary{
+    font-size: 3.25rem;
+  }
+
+  button{
+    width: 10rem;
+    padding: .75rem 0.5rem;
+    border-radius: 2.5rem;
+    border: 0.125rem solid white;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #centerBtn {
+    width: 75px;
+    height: 75px;
+    font-size: 25px;
+  }
+
+  .athleteName{
+    font-size: 2rem;
+  }
+  
+  p{
+    font-size: 1rem;
+  }
+  
+  .salary{
+    font-size: 3rem;
+  }
+
+  button{
+    width: 10rem;
+    padding: .75rem 0.5rem;
+    border-radius: 2.5rem;
+    border: 0.125rem solid white;
+    font-size: 1rem;
+  }
+}
+
+
 
