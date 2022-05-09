@@ -62,9 +62,9 @@ app.post('/newPlayer', urlencodedParser, function(req, res) {
 
 });
 
-app.post('/firstTwoPlayers', urlencodedParser, function(req, res) {
+app.post('/getStartingPlayers', urlencodedParser, function(req, res) {
     var currency = req.body.currency;
-    let SQLQuery =  `SELECT * FROM sports_players ORDER BY RAND () LIMIT 2`;
+    let SQLQuery =  `SELECT * FROM sports_players ORDER BY RAND () LIMIT 3`;
     dbCon.query(SQLQuery, (err, rows, fields) => {
         if (err) throw err;
         var resultArray = Object.values(JSON.parse(JSON.stringify(rows)));

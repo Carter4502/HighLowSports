@@ -21,8 +21,8 @@ const Card = (props) => {
                 <div className="card-info">
                     <h1 className="athleteName">{props.name}</h1>
                     <p>makes</p>
-                    <button id="higher">Higher</button>
-                    <button id="lower">Lower</button>
+                    <button id="higher" onClick={props.hc}>Higher</button>
+                    <button id="lower" onClick={props.lc}>Lower</button>
                     <p>per year</p>
                 </div>
             </div>
@@ -35,8 +35,8 @@ const Card = (props) => {
             <div className="card-info">
                 <h1 className="athleteName">{props.name}</h1>
                 <p>makes</p>
-                <button id="higher">Higher</button>
-                <button id="lower">Lower</button>
+                <button id="higher" onClick={props.hc}>Higher</button>
+                    <button id="lower" onClick={props.lc}>Lower</button>
                 <p>per year</p>
             </div>
         </div>

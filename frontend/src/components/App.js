@@ -9,17 +9,17 @@ function App() {
   //State
   const [state, setState] = useState({
     gameStarted: 0,
-    percent: 0,
+    percent: 50,
     answer: 1,
     score: 0
   })
   const [cards, setCards] = useState([]);
   useEffect(() => {
-    const getFirstTwoCards = async() => {
+    const getStartingPlayers = async() => {
       try {
         const body = {'currency': 'USD'};
         var newPlayers;
-        await fetch('http://localhost:8081/firstTwoPlayers', {
+        await fetch('http://localhost:8081/getStartingPlayers', {
           method: 'POST',
           headers: {"Content-Type": "application/json",
                     Accept: "application/json"},
@@ -33,13 +33,13 @@ function App() {
         })
         newPlayers[0].card_pos = "left";
         newPlayers[1].card_pos = "right";
-        console.log(newPlayers);
+        newPlayers[2].card_pos = "off";
         setCards(newPlayers);
       } catch (err) {
         console.error(err.message);
       }
     }
-    getFirstTwoCards();
+    getStartingPlayers();
   }, []);
 
   const addCard = async() => {
@@ -74,7 +74,7 @@ function App() {
   }
 
   const moveCards = async(salary) => {
-    if (window.matchMedia('(max-width: 860px)').matches){
+    if (window.matchMedia('(max-width: 900px)').matches){
       // do functionality on screens smaller than 860px
       // animation to show the salary of the right player:
       $("#rightcard").children('div')[0].children[2].remove();
@@ -107,7 +107,8 @@ function App() {
       const element = $("#rightcard").children('div')[0];
       //replace the button with the h1
       element.replaceChild(h1, element.childNodes[2]);
-      // move all cards over:                   
+      // move all cards over:            
+      console.log("moving " + state.percent);       
       $('#leftcard, #rightcard, #offcard').animate({'right' : state.percent+'%'}, 700);
       //change the card ids to reflect the move
       $('#leftcard').attr('id', 'deleted');
@@ -117,7 +118,7 @@ function App() {
   }
 
   //game logic
-  $('#higher').unbind("click").on("click", function(){
+  const higherClick = () => {
     var rightSalary = cards[cards.length - 2].salary;
     var leftSalary = cards[cards.length - 3].salary;
     if (leftSalary > rightSalary) {
@@ -127,9 +128,8 @@ function App() {
       moveCards(rightSalary);
       return setState({...state, score: state.score++});
     }
-  });
-
-  $('#lower').unbind("click").on("click", function(){
+  }
+  const lowerClick = () => {
     var rightSalary = cards[cards.length - 2].salary;
     var leftSalary = cards[cards.length - 3].salary;
     if (leftSalary < rightSalary) {
@@ -139,8 +139,8 @@ function App() {
       moveCards(rightSalary);
       return setState({...state, score: state.score++});
     }
-  });
-
+  }
+  
   //if they answered a question incorrectly, display the game over screen
   if(state.answer === 0){
     return (
@@ -155,7 +155,7 @@ function App() {
     return (
       <div className='app'>
         <button id='centerBtn' /*needs to be deleted after request is made for first three cards*/onClick={addCard}>VS</button>
-        <CardGroup cards={cards} img={cards.img_url}></CardGroup>
+        <CardGroup cards={cards} img={cards.img_url} lc={lowerClick} hc={higherClick}></CardGroup>
     </div>
     )
   }

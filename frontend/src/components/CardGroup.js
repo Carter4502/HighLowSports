@@ -8,6 +8,7 @@ const CardGroup = props => {
                 key={card.id}
                 {...card}
                 card_pos={card.card_pos}
+                lc={props.lc} hc={props.hc}
                 ></Card>
         ))
      );
